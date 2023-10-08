@@ -22,12 +22,12 @@ public class CategoriaProducto extends Base {
 
     private boolean eliminado;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "id_producto")
-    private List<Producto> producto = new ArrayList<Producto>();
+    @Builder.Default
+    private List<Producto> producto = new ArrayList<>();
 
     public void agregarProducto(Producto prod) {
         producto.add(prod);
-
     }
 }

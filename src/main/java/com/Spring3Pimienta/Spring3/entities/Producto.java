@@ -30,10 +30,10 @@ public class Producto extends Base {
     private Integer tiempoEstimadoCocina;
 
     @NotNull
-    @Column(name = "precio_venta", precision = 10, scale = 2)
+    @Column(name = "precio_venta")
     private Double precioVenta;
 
-    @Column(name = "costo", precision = 10, scale = 2)
+    @Column(name = "costo")
     private Double precioCosto;
 
     @Column(length = 500, name = "url_imagen")
@@ -41,13 +41,26 @@ public class Producto extends Base {
 
     private boolean eliminado;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_detalle_producto")
-    private List<DetalleProducto> detalleProducto = new ArrayList<DetalleProducto>();
+    @Builder.Default
+    private List<DetalleProducto> detalleProducto = new ArrayList<>();
+
+    //-----------------------------------------------------------------------------------
+    //Métodos
 
     public void agregarDetalleProducto(DetalleProducto detalle){
         detalleProducto.add(detalle);
     }
 
+    public void mostrarDetalleProducto() {
+        System.out.println("-----------------------------------------------------------\n");
+        System.out.println("Pedido id: " + getId());
+        for (DetalleProducto detalleProducto : detalleProducto) {
+            System.out.println("DetallePedido Id: " + detalleProducto.getId()  +
+                    ", Cantidad: " + detalleProducto.getCantidad());
+        }
 
+
+    }
 }

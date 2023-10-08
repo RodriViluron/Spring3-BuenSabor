@@ -34,11 +34,11 @@ public class Pedido extends Base {
     private Date horaEstimadaFinalizacion;
 
     @NotNull
-    @Column(name = "total", precision = 10, scale = 2)
+    @Column(name = "total")
     private double totalPedido;
 
     @NotNull
-    @Column(name = "total_costo", precision = 10, scale = 2)
+    @Column(name = "total_costo")
     private double totalCosto;
 
     @NotNull
@@ -63,19 +63,53 @@ public class Pedido extends Base {
     private Factura factura;
 
     @NotNull
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DetallePedido> detallePedidos = new ArrayList<DetallePedido>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pedido")
-    private Pedido pedido;
+    @Builder.Default
+    private List<DetallePedido> detallePedidos = new ArrayList<>();
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_domicilio_entrega")
     private Domicilio domicilioEntrega;
 
     @NotNull
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
+
+    //-----------------------------------------------------------------------------------
+    //Métodos
+
+    public void agregarDetallePedido(DetallePedido detalle) {
+
+        detallePedidos.add(detalle);
+    }
+    public void mostrarFactura() {
+        System.out.println("-----------------------------------------------------------\n");
+        System.out.println("Pedidos id: " + getId());
+        if (factura != null) {
+            System.out.println("Factura Id: " + factura.getId()  + ", Fecha factura: "  + factura.getFechaFacturacion() +
+        ", Descuento: " + factura.getPorcentajeDescuento() + ", Forma de pago: " + factura.getFormaPago() + ", Total Costo: "
+                    + factura.getTotalCosto() + ", Total Venta: " + factura.getTotalVenta());
+        } else {
+            System.out.println("No hay factura asociada a este pedido.");
+        }
+    }
+
+    public void mostrarDetallePedido() {
+        System.out.println("-----------------------------------------------------------\n");
+        System.out.println("Pedido id: " + getId());
+        for (DetallePedido detallePedido : detallePedidos) {
+            System.out.println("DetallePedido Id: " + detallePedido.getId()  +
+                    ", Cantidad: " + detallePedido.getCantidad());
+        }
+
+
+    }
+
+    public void mostrarUsuario(){
+
+    }
 
 
 }

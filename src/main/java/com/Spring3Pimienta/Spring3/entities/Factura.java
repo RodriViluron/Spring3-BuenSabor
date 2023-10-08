@@ -38,15 +38,15 @@ public class Factura extends Base {
     private Double totalCosto;
 
     @NotNull
-    @Column(name = "total_venta", precision = 10, scale = 2)
+    @Column(name = "total_venta")
     private Double totalVenta;
 
     private boolean eliminado;
 
     @NotNull
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_detalle_factura")
-    private List<DetalleFactura> detalleFactura = new ArrayList<DetalleFactura>();
+    private List<DetalleFactura> detalleFactura = new ArrayList<>();
 
     public void agregarDetalleFactura(DetalleFactura detalle) {
         detalleFactura.add(detalle);

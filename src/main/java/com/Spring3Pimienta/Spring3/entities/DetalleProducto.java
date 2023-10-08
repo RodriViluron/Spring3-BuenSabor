@@ -20,7 +20,7 @@ public class DetalleProducto extends Base {
     private Integer cantidad;
 
     @NotNull
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_ingrediente")
     private Ingrediente ingrediente;
 

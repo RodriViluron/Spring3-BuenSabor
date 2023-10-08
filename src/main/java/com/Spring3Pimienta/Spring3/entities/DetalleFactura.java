@@ -19,7 +19,7 @@ public class DetalleFactura extends Base {
     @NotNull
     private Integer cantidad;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_ingrediente")
     private Ingrediente ingrediente;
 
@@ -27,6 +27,11 @@ public class DetalleFactura extends Base {
     @JoinColumn(name = "id_producto")
     private Producto producto;
 
+    //-----------------------------------------------------------------------------------
+    //Métodos
+    public void agregarProducto(Producto prod){
 
+        this.producto = prod;
+    }
 
 }

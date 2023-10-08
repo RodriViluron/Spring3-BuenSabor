@@ -19,13 +19,16 @@ public class DetallePedido extends Base {
     @NotNull
     private Integer cantidad;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_ingrediente")
     private Ingrediente ingrediente;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_producto")
     private Producto producto;
 
+
+    //-----------------------------------------------------------------------------------
+    //Métodos
 
 }

@@ -22,14 +22,14 @@ public class RubroIngrediente extends Base {
 
     private boolean eliminado;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_rubro_padre")
     private RubroIngrediente rubroPadre;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_ingrediente")
     @Builder.Default
-    private List<Ingrediente> ingrediente = new ArrayList<Ingrediente>();
+    private List<Ingrediente> ingrediente = new ArrayList<>();
 
     public RubroIngrediente(String denominacion, RubroIngrediente rubroPadre) {
         this.denominacion = denominacion;

@@ -30,10 +30,10 @@ public class Cliente extends Base {
     private Usuario usuario;
 
     //Relación OneToMany Cliente y Domicilio
-     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
      @JoinColumn(name = "fk_cliente")
      @Builder.Default
-     private List<Domicilio> domicilios = new ArrayList<Domicilio>();
+     private List<Domicilio> domicilios = new ArrayList<>();
 
     //-----------------------------------------------------------------------------------
     //Métodos
@@ -50,13 +50,15 @@ public class Cliente extends Base {
         System.out.println("-----------------------------------------------------------\n");
         System.out.println("Domicilios de " + nombre + " " + apellido + ":");
         for (Domicilio domicilio : domicilios) {
-            System.out.println("Calle: " + domicilio.getCalle() + ", Número: " + domicilio.getNumero() +
-                    "Código Postal:" + domicilio.getCodigoPostal() + ", Localidad: " + domicilio.getLocalidad() +
-                    "Número Departamento: " + domicilio.getNumeroDpto() + "Piso Departamento: "
-                    + domicilio.getNumeroDpto() + "Piso Departamento: " + domicilio.getPisoDpto());
+            System.out.println("Calle: " + domicilio.getCalle());
+            System.out.println("Número: " + domicilio.getNumero());
+            System.out.println("Código Postal:" + domicilio.getCodigoPostal());
+            System.out.println("Localidad: " + domicilio.getLocalidad());
+            System.out.println("Número Departamento: " + domicilio.getNumeroDpto());
+            System.out.println("Piso Departamento: " + domicilio.getNumeroDpto());
         }
-
-
     }
+
+
 
 }

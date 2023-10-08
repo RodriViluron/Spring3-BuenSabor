@@ -26,4 +26,5 @@ public class Usuario extends Base {
 
     private boolean eliminado;
 
+
 }

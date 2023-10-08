@@ -59,10 +59,10 @@ public class Spring3Application {
 		return args -> {
 
 			//Le doy formato a Date
-			SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-			String fecha1 = "2023-09-10'T'21:32:05";
-			String fecha2 = "2023-08-15T'22:45:58";
-			String fecha3 = "2023-07-03T'23:03:32";
+			SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+			String fecha1 = "2023-09-10";
+			String fecha2 = "2023-08-15T";
+			String fecha3 = "2023-07-03T";
 
 			//Parseo String en un objeto Date
 			Date fechaUno = formatoFecha.parse(fecha1);
@@ -80,13 +80,14 @@ public class Spring3Application {
 			Date horarioDos = formatoFecha.parse(fecha2);
 			Date horarioTres = formatoFecha.parse(fecha3);
 
-			//Crear Cliente
+			// Crear Clientes
 			Cliente cliente1 = Cliente.builder()
 					.nombre("Rodrigo")
 					.apellido("Viluron")
 					.telefono("2617869567")
 					.email("rodri@gmail.com")
 					.build();
+
 			Cliente cliente2 = Cliente.builder()
 					.nombre("Roberto")
 					.apellido("Marin")
@@ -94,7 +95,11 @@ public class Spring3Application {
 					.email("roberto@gmail.com")
 					.build();
 
-			//Crear Domicilio
+			// Guardar Clientes
+			clienteRepository.save(cliente1);
+			clienteRepository.save(cliente2);
+
+			// Crear Domicilios
 			Domicilio domicilio1 = Domicilio.builder()
 					.calle("Calle falsa")
 					.numero(123)
@@ -102,7 +107,6 @@ public class Spring3Application {
 					.localidad("Luján de Cuyo")
 					.numeroDpto(1)
 					.pisoDpto(1)
-
 					.build();
 
 			Domicilio domicilio2 = Domicilio.builder()
@@ -110,53 +114,47 @@ public class Spring3Application {
 					.numero(456)
 					.codigoPostal(5501)
 					.localidad("Godoy Cruz")
-
 					.build();
 
-			//Guardar Domicilio
+			// Asignar Domicilio a Cliente
+			cliente1.agregarDomicilio(domicilio1);
+			cliente2.agregarDomicilio(domicilio2);
+
+			// Guardar Domicilio
 			domicilioRepository.save(domicilio1);
 			domicilioRepository.save(domicilio2);
-
-			//Asignar Domicilio a Cliente
-			cliente1.ag
-
-			//Guardar Cliente
+			// Guardar Clientes
 			clienteRepository.save(cliente1);
 			clienteRepository.save(cliente2);
 
-			//Crear Usuario
+			// Crear Usuario
 			Usuario usuario1 = Usuario.builder()
-
-					.username(cliente1.getEmail())
+					.auth0Id("1")
+					.username("rodri@gmail.com")
 					.build();
 
 			Usuario usuario2 = Usuario.builder()
-					.username(cliente2.getEmail())
+					.auth0Id("2")
+					.username("roberto@gmail.com")
 					.build();
 
-			// Guardar los usuarios en la base de datos
-			usuarioRepository.save(usuario1);
-			usuarioRepository.save(usuario2);
 
 			// Agregar usuarios a los clientes
-			cliente1.agregarUsuario(usuario1);
-			cliente2.agregarUsuario(usuario2);
+			cliente1.setUsuario(usuario1);
+			cliente2.setUsuario(usuario2);
 
-			//Crear UnidadMedida
+			// Crear UnidadMedida
 			UnidadMedida unidadMedida1 = UnidadMedida.builder()
 					.denominacion("kilos")
 					.abreviatura("kg")
 					.build();
 
-			//Guardar UnidadMedida
-			unidadMedidaRepository.save(unidadMedida1);
-
-			//Crear Rubros
+			// Crear Rubro
 			RubroIngrediente rubro1 = RubroIngrediente.builder()
 					.denominacion("vegetales")
 					.build();
 
-			//Crear Ingredientes
+			// Crear Ingredientes
 			Ingrediente ingrediente1 = Ingrediente.builder()
 					.denominacion("tomate")
 					.stockActual(50.20)
@@ -164,6 +162,7 @@ public class Spring3Application {
 					.precioCompra(5)
 					.urlImagen("urlImagenTomate")
 					.build();
+
 			Ingrediente ingrediente2 = Ingrediente.builder()
 					.denominacion("carne")
 					.stockActual(50.20)
@@ -172,21 +171,15 @@ public class Spring3Application {
 					.urlImagen("urlImagenCarne")
 					.build();
 
-			//Asignar Unidad medida a ingrediente
+			// Asignar UnidadMedida a Ingrediente
 			ingrediente1.setUnidadMedida(unidadMedida1);
-			ingrediente2.setUnidadMedida(unidadMedida1);
 
-			//Guardar Ingredientes a bd
-			ingredienteRepository.save(ingrediente1);
-			ingredienteRepository.save(ingrediente2);
-
-			//Agregar Ingredientes a rubros
+			// Asignar Ingrediente a Rubro
 			rubro1.agregarIngrediente(ingrediente1);
 
-			//Guardar Rubros en bd
-			rubroIngrdienteRepository.save(rubro1);
 
-			//Crear CategoriaProducto
+
+			// Crear Categoría de Productos
 			CategoriaProducto categoriaProducto1 = CategoriaProducto.builder()
 					.denominacion("Hamburguesas")
 					.build();
@@ -195,7 +188,11 @@ public class Spring3Application {
 					.denominacion("Lomos")
 					.build();
 
-			//Crear Productos
+			// Guardar Categoría de Productos
+			categoriaProductoRepository.save(categoriaProducto1);
+			categoriaProductoRepository.save(categoriaProducto2);
+
+			// Crear Productos
 			Producto producto1 = Producto.builder()
 					.denominacion("Hamburguesa_clásica")
 					.descripcion("Carne, pan, lechuga, tomate, queso.")
@@ -214,19 +211,14 @@ public class Spring3Application {
 					.urlImagen("urlImagenLomoClásico")
 					.build();
 
-			//Guardar Productos a bd
+			// Asignar Producto a Categoría de Productos
+			categoriaProducto1.agregarProducto(producto1);
+			categoriaProducto2.agregarProducto(producto2);
+
+			// Guardar Productos
 			productoRepository.save(producto1);
 			productoRepository.save(producto2);
-
-			//Asignar Producto a CategoriaProducto
-			categoriaProducto1.agregarProducto(producto1);
-			categoriaProducto1.agregarProducto(producto2);
-
-			//Guardar CategoriaProducto
-			categoriaProductoRepository.save(categoriaProducto1);
-			categoriaProductoRepository.save(categoriaProducto2);
-
-			//Crear DetalleProducto
+			// Crear DetalleProducto
 			DetalleProducto detalleProducto1 = DetalleProducto.builder()
 					.cantidad(5)
 					.build();
@@ -235,25 +227,19 @@ public class Spring3Application {
 					.cantidad(4)
 					.build();
 
-			//Asignar Ingredientes a DetalleProducto
+			// Asignar Ingredientes a DetalleProducto
 			detalleProducto1.setIngrediente(ingrediente1);
 			detalleProducto2.setIngrediente(ingrediente2);
 
-			//Guardar DetalleProducto
-
-			detalleProductoRepository.save(detalleProducto1);
-			detalleProductoRepository.save(detalleProducto2);
-
-			//Asignar DetalleProducto a Producto
+			// Asignar DetalleProducto a Producto
 			producto1.agregarDetalleProducto(detalleProducto1);
 			producto1.agregarDetalleProducto(detalleProducto2);
 
-			//Guardar Productos a bd
-			productoRepository.save(producto1);
-			productoRepository.save(producto2);
+			// Guardar DetalleProducto
+			detalleProductoRepository.save(detalleProducto1);
+			detalleProductoRepository.save(detalleProducto2);
 
-
-			//Crear Pedido
+			// Crear Pedido
 			Pedido pedido1 = Pedido.builder()
 					.fechaPedido(fechaUno)
 					.horaEstimadaFinalizacion(horarioUno)
@@ -274,7 +260,15 @@ public class Spring3Application {
 					.formaPago(FormaPago.EFECTIVO)
 					.build();
 
-			//Crear Factura
+			// Asignar Usuario a Pedido
+			//pedido1.setUsuario(usuario1);
+			//pedido2.setUsuario(usuario1);
+
+			// Guardar Pedido
+			pedidoRepository.save(pedido1);
+			pedidoRepository.save(pedido2);
+
+			// Crear Factura
 			Factura factura1 = Factura.builder()
 					.fechaFacturacion(fechaUno)
 					.numeroFactura(1)
@@ -293,11 +287,15 @@ public class Spring3Application {
 					.totalVenta(9500.00)
 					.build();
 
-			//Asignar Factura a Pedido
+			// Asignar Factura a Pedido
 			pedido1.setFactura(factura1);
 			pedido2.setFactura(factura2);
 
-			//Crear DetalleFactura
+			// Guardar Factura
+			facturaRepository.save(factura1);
+			facturaRepository.save(factura2);
+
+			// Crear DetalleFactura
 			DetalleFactura detalleFactura1 = DetalleFactura.builder()
 					.cantidad(2)
 					.build();
@@ -310,25 +308,46 @@ public class Spring3Application {
 					.cantidad(1)
 					.build();
 
-			//Asignar Ingrediente a DetalleFactura
-			detalleFactura1.setIngrediente(ingrediente1);
-			detalleFactura2.setIngrediente(ingrediente2);
+// Asignar Ingrediente a DetalleFactura
+		//	detalleFactura1.setIngrediente(ingrediente1);
+		//	detalleFactura2.setIngrediente(ingrediente2);
 
-			//Asignar Producto a DetalleFactura
+// Asignar Producto a DetalleFactura
 			detalleFactura1.setProducto(producto1);
 			detalleFactura2.setProducto(producto1);
+			detalleFactura3.setProducto(producto2);
 
-			//Guardar DetalleFactura
+// Guardar DetalleFactura
 			detalleFacturaRepository.save(detalleFactura1);
 			detalleFacturaRepository.save(detalleFactura2);
+			detalleFacturaRepository.save(detalleFactura3);
 
-			//Asignar DetalleFactura a Factura
-			factura1.agregarDetalleFactura(detalleFactura1);
-			factura1.agregarDetalleFactura(detalleFactura2);
 
-			//Guardar Factura
-			facturaRepository.save(factura1);
-			facturaRepository.save(factura2);
+
+
+			//-----------------------------------------------------------------------------------
+			//Uso de Métodos
+
+			//recuperar Cliente desde BD
+			Cliente clienteRecuperado = clienteRepository.findById(cliente1.getId()).orElse(null);
+			if (clienteRecuperado != null) {
+				System.out.println("Nombre: " + clienteRecuperado.getNombre());
+				System.out.println("Apellido: " + clienteRecuperado.getApellido());
+				System.out.println("Email: " + clienteRecuperado.getEmail());
+				System.out.println("Teléfono: " + clienteRecuperado.getTelefono());
+				clienteRecuperado.mostrarDomicilios();
+				System.out.println("----------------------------------------");
+			}
+
+			Producto productoRecuperado = productoRepository.findById(producto1.getId()).orElse(null);
+			if (productoRecuperado != null) {
+				System.out.println("-------------------------------------------------------");
+				System.out.println("Denominacion: " + productoRecuperado.getDenominacion());
+				System.out.println("Tiempo Estimado Cocina: " + productoRecuperado.getTiempoEstimadoCocina());
+				System.out.println("Precio Venta: " + productoRecuperado.getPrecioVenta());
+				System.out.println("Precio Costo: " + productoRecuperado.getPrecioCosto());
+				productoRecuperado.mostrarDetalleProducto();
+			}
 
 
 
